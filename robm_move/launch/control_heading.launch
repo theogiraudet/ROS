@@ -1,0 +1,17 @@
+<launch>
+	<node name="nxt_driver" pkg="robm_nxt" type="nxt_driver.py" output="screen" />
+	
+	<!-- Odometrie: choisir soit le noeud du TP2, soit le noeud fourmi au TP3 -->
+	<node name="odometry" pkg="robm_odometry" type="odometry.py" />
+	<!-- <node name="odometry" pkg="robm_move" type="odometry_obf.py" /> -->
+	
+	<node name="base_controller" pkg="robm_move" type="base_controller.py" />
+	<node name="control_heading" pkg="robm_move" type="control_heading.py" />
+	
+	<node name="map_odom_transform_publisher" pkg="tf" type="static_transform_publisher" 
+		args="0 0 0 0 0 0 map odom 1000" />
+
+	<!-- Affichage -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find robm_move)/rviz/odometry_view.rviz" />
+	<node name="error_plot" pkg="rqt_plot" type="rqt_plot" args="/cmd_vel/angular/z" />
+</launch>
